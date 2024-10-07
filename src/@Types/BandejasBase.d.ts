@@ -17,9 +17,11 @@ interface IRegistroConfirmacionDatos {
   homonimosAtendidos: boolean;
   edad: string;
   documentosRelacionados: IDocumento[];
+  documentosRelacionadosString: string
 }
 
 interface IDocumento {
+  s3: string;
   url: string;
   descripcion: string;
   extension: string;

@@ -17,6 +17,7 @@ import {
   ESTATUSBANDEJA_VERIFICACIONDATOS,
   FORMATO_FECHA,
 } from "../../../../Constants";
+import { useDocumento } from "../../hooks/documentos/useDocumento";
 
 export const BandejaConfirmacionDatos = () => {
   //#region HOOKS
@@ -32,6 +33,7 @@ export const BandejaConfirmacionDatos = () => {
     ObtenerListadoHomonimos,
   } = useEnrolamiento();
   const { MostrarMensaje } = useSwal();
+  const { EstablecerArchivosVisualizarBase64 } = useDocumento()
   //#endregion
 
   //#region USESTATE
@@ -126,22 +128,8 @@ export const BandejaConfirmacionDatos = () => {
   const VisualizarDetallesRegistro = async (
     row: IRegistroConfirmacionDatos
   ) => {
-    row = { ...row, edad: CalcularEdad(row.fechaNacimiento) };
-    row = {
-      ...row,
-      documentosRelacionados: [
-        {
-          url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREYpR-rq74UWw6BMsPuc-pN5_026LepkNPmw&s",
-          descripcion: "Credencial - Frente",
-          extension: ".png",
-        },
-        {
-          url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrv_FaLiJLNo6GKNdQeEaNo0OefTDL3hHMFA&s",
-          descripcion: "Credencial - Trasera",
-          extension: ".png",
-        },
-      ],
-    };
+    row = { ...row, edad: CalcularEdad(row.fechaNacimiento), documentosRelacionados: row && row.documentosRelacionadosString ? JSON.parse(row.documentosRelacionadosString) : []};
+    row.documentosRelacionados = await EstablecerArchivosVisualizarBase64(row.documentosRelacionados)
     if (!row.homonimosAtendidos) {
       let EstatusConfirmacionDatos =
         row && row.datosConfirmados
