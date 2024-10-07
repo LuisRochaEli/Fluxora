@@ -22,6 +22,7 @@ import {
 } from "../../../components/template";
 import { useSwal } from "../../../hooks";
 import { useState } from "react";
+import { useSpinLoadStore } from "../../../store";
 
 export const BandejaModal = (props: {
   isOpenModal: boolean;
@@ -56,6 +57,7 @@ export const BandejaModal = (props: {
     InsertarActualizarRelacionEnrolamientoOrigen,
   } = useEnrolamiento();
   const { ItemHomonimoSeleccionado } = useClienteHomonimosStore();
+  const { MostrarCarga, OcultarCargar} = useSpinLoadStore()
   //#endregion
 
   //#region USESTATE
@@ -80,6 +82,7 @@ export const BandejaModal = (props: {
     );
     if (Swal) {
       try {
+        MostrarCarga()
         const AjaxObj = {
           idOrigen: DataItem && DataItem.idOrigen ? DataItem.idOrigen : null,
           idEnrolamiento:
@@ -113,6 +116,8 @@ export const BandejaModal = (props: {
           "warning",
           t("AnErrorOcurredPleaseContactSystemDepartmant")
         );
+      } finally {
+        OcultarCargar()
       }
     }
   };
@@ -127,6 +132,7 @@ export const BandejaModal = (props: {
       cantidadHomonimos: ListadoHomonimos.length,
     };
     try {
+      MostrarCarga()
       await InsertarActualizarRelacionEnrolamientoOrigen(AjaxObj);
       closeModal(true);
     } catch (error) {
@@ -134,6 +140,8 @@ export const BandejaModal = (props: {
         "warning",
         t("AnErrorOcurredPleaseContactSystemDepartmant")
       );
+    } finally {
+      OcultarCargar();
     }
   };
   //#endregion

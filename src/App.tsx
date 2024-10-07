@@ -10,11 +10,9 @@ import { ErrorServer } from "./pages/ErrorServer";
 // import { useTheme } from "./hooks";
 import { IonApp, setupIonicReact } from "@ionic/react";
 import "@ionic/react/css/core.css";
-
 import "@ionic/react/css/normalize.css";
 import "@ionic/react/css/structure.css";
 import "@ionic/react/css/typography.css";
-
 import "@ionic/react/css/padding.css";
 import "@ionic/react/css/float-elements.css";
 import "@ionic/react/css/text-alignment.css";
@@ -131,9 +129,9 @@ export const App = () => {
               <></>
             )}
           </div>
-          <SpinerLoad />
         </BrowserRouter>
       </IonApp>
+      <SpinerLoad></SpinerLoad>
     </I18nextProvider>
   );
 };

@@ -3,9 +3,9 @@ import { useFechaUtil } from "../../../../hooks/template/useFechaUtil";
 import { useEnrolamiento } from "../../hooks/credito/useEnrolamiento";
 import { useCatalogo } from "../../../../hooks/catalogos/useCatalogo";
 import { CustomDatatable } from "../../../../components/template";
+import { useModal, useSwal, useTitulo } from "../../../../hooks";
 import { BandejaModal } from "../../components/BandejaModal";
 import { useThemes } from "../../../../styles/useThemes";
-import { useModal, useTitulo } from "../../../../hooks";
 import { useSpinLoadStore } from "../../../../store";
 import { CgEditBlackPoint } from "react-icons/cg";
 import { useTranslation } from "react-i18next";
@@ -31,6 +31,7 @@ export const BandejaConfirmacionDatos = () => {
     ObtenerListadoEnrolamientoConfirmacionDatos,
     ObtenerListadoHomonimos,
   } = useEnrolamiento();
+  const { MostrarMensaje } = useSwal();
   //#endregion
 
   //#region USESTATE
@@ -141,34 +142,38 @@ export const BandejaConfirmacionDatos = () => {
         },
       ],
     };
-    let EstatusConfirmacionDatos =
-      row && row.datosConfirmados
-        ? ESTATUSBANDEJA_VERIFICACIONDATOS.VERIFICACION_HOMONIMOS
-        : ESTATUSBANDEJA_VERIFICACIONDATOS.VERIFICACION_INFORMACIONCAPTURADA;
-    if (
-      EstatusConfirmacionDatos ===
-      ESTATUSBANDEJA_VERIFICACIONDATOS.VERIFICACION_HOMONIMOS
-    ) {
-      const CollectionHomonimos = await ObtenerListadoHomonimos({
-        nombre: row.nombre.trim(),
-        apellidoPaterno: row.apellidoPaterno.trim(),
-        apellidoMaterno: row.apellidoMaterno.trim(),
-        fechaNacimiento:
-          row && row.fechaNacimiento ? row.fechaNacimiento : null,
-      });
-      setListadoHomonimos(
-        CollectionHomonimos && CollectionHomonimos.length > 0
-          ? CollectionHomonimos
-          : []
-      );
+    if (!row.homonimosAtendidos) {
+      let EstatusConfirmacionDatos =
+        row && row.datosConfirmados
+          ? ESTATUSBANDEJA_VERIFICACIONDATOS.VERIFICACION_HOMONIMOS
+          : ESTATUSBANDEJA_VERIFICACIONDATOS.VERIFICACION_INFORMACIONCAPTURADA;
+      if (
+        EstatusConfirmacionDatos ===
+        ESTATUSBANDEJA_VERIFICACIONDATOS.VERIFICACION_HOMONIMOS
+      ) {
+        const CollectionHomonimos = await ObtenerListadoHomonimos({
+          nombre: row.nombre.trim(),
+          apellidoPaterno: row.apellidoPaterno.trim(),
+          apellidoMaterno: row.apellidoMaterno.trim(),
+          fechaNacimiento:
+            row && row.fechaNacimiento ? row.fechaNacimiento : null,
+        });
+        setListadoHomonimos(
+          CollectionHomonimos && CollectionHomonimos.length > 0
+            ? CollectionHomonimos
+            : []
+        );
+      }
+      setEstatusProcesoConfirmacionDatos(EstatusConfirmacionDatos);
+      setItemRegistroPorConfirmar(row);
+      BModal.openModal();
+    } else {
+      MostrarMensaje("warning", t("Trays.EnrollmentHasAlreadyBeenTakenCareOf"));
     }
-    setEstatusProcesoConfirmacionDatos(EstatusConfirmacionDatos);
-    setItemRegistroPorConfirmar(row);
-    BModal.openModal();
   };
 
   const CerrarModalBandeja = async (Fill: boolean) => {
-    if(Fill) await FillDatatable(Filtros);
+    if (Fill) await FillDatatable(Filtros);
     await BModal.closeModal();
     setItemRegistroPorConfirmar(null);
   };

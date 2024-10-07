@@ -325,6 +325,7 @@
     "Accept": "Aceptar",
     "Cancel": "Cancelar",
     "NIP": "NIP",
-    "Select": "Selecciona"
+    "Select": "Selecciona",
+    "EnrollmentHasAlreadyBeenTakenCareOf": "Enrolamiento seleccionado ya ha sido atendido por otro usuario."
   }
 }
