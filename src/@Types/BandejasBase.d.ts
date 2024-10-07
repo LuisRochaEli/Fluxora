@@ -1,0 +1,48 @@
+interface IDtoFiltrosBandejaConfirmacionDatos {
+  fechaAltaFrom: string | Date;
+  fechaAltaTo: string | Date;
+}
+
+interface IRegistroConfirmacionDatos {
+  idOrigen: number;
+  origen: string;
+  identificador: number;
+  nombre: string;
+  apellidos: string;
+  apellidoPaterno: string;
+  apellidoMaterno: string;
+  idGenero: number | null;
+  fechaNacimiento: Date;
+  datosConfirmados: boolean;
+  homonimosAtendidos: boolean;
+  edad: string;
+  documentosRelacionados: IDocumento[];
+}
+
+interface IDocumento {
+  url: string;
+  descripcion: string;
+  extension: string;
+}
+
+interface IFormikConfirmacionDatos {
+  identificador: number | null;
+  nombre: string;
+  apellidoPaterno: string;
+  apellidoMaterno: string;
+  idGenero: number | null;
+  fechaNacimiento: string;
+  edad: string;
+  botonPrincipal: boolean;
+}
+
+interface IHomonimo {
+  nombreCompleto: string;
+  fechaNacimiento: Date;
+  calle: string;
+  colonia: string;
+  codigoPostal: number;
+  ciudad: string;
+  nip: number;
+  cuentas: string;
+}

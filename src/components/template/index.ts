@@ -1,0 +1,12 @@
+export { CustomButtonModal } from './CustomButtonModal';
+export { CustomCapturePhoto } from "./CustomCapturePhoto";
+export { CustomDatatable } from "./CustomDatatable";
+export { CustomSignaturePad } from "./CustomSignaturePad";
+export { CustomStepper } from "./CustomStepper";
+export { DropdownLenguaje } from "./DropdownLenguaje";
+export { Modal } from "./Modal";
+export { NavBar } from "./NavBar";
+export { SideBar } from "./SideBar";
+export { SpinerLoad } from "./SpinerLoad";
+export { SwiperImagenes } from "./SwiperImagenes";
+export { DocumentosVisualizarModal } from './DocumentosVisualizarModal';
