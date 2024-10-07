@@ -128,8 +128,19 @@ export const BandejaConfirmacionDatos = () => {
   const VisualizarDetallesRegistro = async (
     row: IRegistroConfirmacionDatos
   ) => {
-    row = { ...row, edad: CalcularEdad(row.fechaNacimiento), documentosRelacionados: row && row.documentosRelacionadosString ? JSON.parse(row.documentosRelacionadosString) : []};
-    row.documentosRelacionados = await EstablecerArchivosVisualizarBase64(row.documentosRelacionados)
+    row = {
+      ...row,
+      edad: CalcularEdad(row.fechaNacimiento),
+      documentosRelacionados:
+        row && row.documentosRelacionadosString
+          ? JSON.parse(row.documentosRelacionadosString)
+          : [],
+    };
+    const DocumentosRelacionadosURLBase64 =
+      await EstablecerArchivosVisualizarBase64(row.documentosRelacionados);
+    row.documentosRelacionados = DocumentosRelacionadosURLBase64.sort(
+      (a: any, b: any) => a.orden - b.orden
+    );
     if (!row.homonimosAtendidos) {
       let EstatusConfirmacionDatos =
         row && row.datosConfirmados
