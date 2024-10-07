@@ -131,9 +131,9 @@ export const App = () => {
               <></>
             )}
           </div>
-          <SpinerLoad />
         </BrowserRouter>
       </IonApp>
+      <SpinerLoad></SpinerLoad>
     </I18nextProvider>
   );
 };
