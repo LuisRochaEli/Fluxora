@@ -108,9 +108,14 @@ export const BandejaModal = (props: {
             ? CollectionHomonimos
             : []
         );
-        setEstatusProcesoConfirmacionDatos(
-          ESTATUSBANDEJA_VERIFICACIONDATOS.VERIFICACION_HOMONIMOS
-        );
+        if (CollectionHomonimos && CollectionHomonimos.length > 0) {
+          setEstatusProcesoConfirmacionDatos(
+            ESTATUSBANDEJA_VERIFICACIONDATOS.VERIFICACION_HOMONIMOS
+          );
+        } else {
+          await ActualizacionConfirmacionHomonimosAtendidos()
+          closeModal(true);
+        }
       } catch (error) {
         MostrarMensaje(
           "warning",

@@ -177,7 +177,7 @@ export const BandejaConfirmacionDatos = () => {
   };
 
   const CerrarModalBandeja = async (Fill: boolean) => {
-    if (Fill) await FillDatatable(Filtros);
+    if (Fill) FillDatatable(Filtros);
     await BModal.closeModal();
     setItemRegistroPorConfirmar(null);
   };
@@ -272,7 +272,10 @@ export const BandejaConfirmacionDatos = () => {
                         name={"enrolamientoCompleto"}
                         options={[
                           { label: t("Trays.FullEnrollment"), value: "1" },
-                          { label: t("Trays.EnrollmentToBeConfirmed"), value: "0" },
+                          {
+                            label: t("Trays.EnrollmentToBeConfirmed"),
+                            value: "0",
+                          },
                         ]}
                         label={`${t("Trays.EnrollmentStatus")}`}
                         placeholder={t("Select")}
