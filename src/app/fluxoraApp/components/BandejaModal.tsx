@@ -7,6 +7,7 @@ import { useCatalogo } from "../../../hooks/catalogos/useCatalogo";
 import { ValidacionesYupCredito } from "../helpers/validaciones";
 import { FaChevronRight, FaEdit, FaSave } from "react-icons/fa";
 import { ChangeRegex } from "../../../helpers/FormatosRegex";
+import { useSpinLoadStore } from "../../../store";
 import { useTranslation } from "react-i18next";
 import { format, startOfDay } from "date-fns";
 import { Formik, FormikProps } from "formik";
@@ -22,7 +23,6 @@ import {
 } from "../../../components/template";
 import { useSwal } from "../../../hooks";
 import { useState } from "react";
-import { useSpinLoadStore } from "../../../store";
 
 export const BandejaModal = (props: {
   isOpenModal: boolean;
@@ -57,7 +57,7 @@ export const BandejaModal = (props: {
     InsertarActualizarRelacionEnrolamientoOrigen,
   } = useEnrolamiento();
   const { ItemHomonimoSeleccionado } = useClienteHomonimosStore();
-  const { MostrarCarga, OcultarCargar} = useSpinLoadStore()
+  const { MostrarCarga, OcultarCargar } = useSpinLoadStore();
   //#endregion
 
   //#region USESTATE
@@ -82,7 +82,7 @@ export const BandejaModal = (props: {
     );
     if (Swal) {
       try {
-        MostrarCarga()
+        MostrarCarga();
         const AjaxObj = {
           idOrigen: DataItem && DataItem.idOrigen ? DataItem.idOrigen : null,
           idEnrolamiento:
@@ -117,7 +117,7 @@ export const BandejaModal = (props: {
           t("AnErrorOcurredPleaseContactSystemDepartmant")
         );
       } finally {
-        OcultarCargar()
+        OcultarCargar();
       }
     }
   };
@@ -132,7 +132,7 @@ export const BandejaModal = (props: {
       cantidadHomonimos: ListadoHomonimos.length,
     };
     try {
-      MostrarCarga()
+      MostrarCarga();
       await InsertarActualizarRelacionEnrolamientoOrigen(AjaxObj);
       closeModal(true);
     } catch (error) {

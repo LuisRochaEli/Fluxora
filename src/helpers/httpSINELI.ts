@@ -47,8 +47,7 @@ httpInstanceDocumentos.interceptors.request.use(
 );
 
 const httpInstanceCreditos = axios.create({
-  baseURL: 
-  `https://www.elizondo.mx:5050/<%Ambiente%>/AppCreditoTest`,
+  baseURL: `https://www.elizondo.mx:5050/<%Ambiente%>/AppCreditoTest`,
 });
 
 httpInstanceCreditos.interceptors.request.use(

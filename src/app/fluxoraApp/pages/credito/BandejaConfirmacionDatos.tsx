@@ -2,6 +2,7 @@ import { FormikCalendario } from "../../../../components/customFormik";
 import { useFechaUtil } from "../../../../hooks/template/useFechaUtil";
 import { useEnrolamiento } from "../../hooks/credito/useEnrolamiento";
 import { useCatalogo } from "../../../../hooks/catalogos/useCatalogo";
+import { useDocumento } from "../../hooks/documentos/useDocumento";
 import { CustomDatatable } from "../../../../components/template";
 import { useModal, useSwal, useTitulo } from "../../../../hooks";
 import { BandejaModal } from "../../components/BandejaModal";
@@ -9,7 +10,7 @@ import { useThemes } from "../../../../styles/useThemes";
 import { useSpinLoadStore } from "../../../../store";
 import { CgEditBlackPoint } from "react-icons/cg";
 import { useTranslation } from "react-i18next";
-import { format, subMonths } from "date-fns";
+import { format, subWeeks } from "date-fns";
 import { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { Formik } from "formik";
@@ -17,7 +18,6 @@ import {
   ESTATUSBANDEJA_VERIFICACIONDATOS,
   FORMATO_FECHA,
 } from "../../../../Constants";
-import { useDocumento } from "../../hooks/documentos/useDocumento";
 
 export const BandejaConfirmacionDatos = () => {
   //#region HOOKS
@@ -33,12 +33,12 @@ export const BandejaConfirmacionDatos = () => {
     ObtenerListadoHomonimos,
   } = useEnrolamiento();
   const { MostrarMensaje } = useSwal();
-  const { EstablecerArchivosVisualizarBase64 } = useDocumento()
+  const { EstablecerArchivosVisualizarBase64 } = useDocumento();
   //#endregion
 
   //#region USESTATE
   const [Filtros, setFiltros] = useState<IDtoFiltrosBandejaConfirmacionDatos>({
-    fechaAltaFrom: subMonths(new Date(), 1).toISOString(),
+    fechaAltaFrom: subWeeks(new Date(), 1).toISOString(),
     fechaAltaTo: new Date().toISOString(),
   });
   const [InfoData, setInfoData] = useState<{
@@ -136,6 +136,7 @@ export const BandejaConfirmacionDatos = () => {
           ? JSON.parse(row.documentosRelacionadosString)
           : [],
     };
+    console.log(JSON.parse(row.documentosRelacionadosString));
     const DocumentosRelacionadosURLBase64 =
       await EstablecerArchivosVisualizarBase64(row.documentosRelacionados);
     row.documentosRelacionados = DocumentosRelacionadosURLBase64.sort(
@@ -225,8 +226,8 @@ export const BandejaConfirmacionDatos = () => {
                 fechaAltaFrom: Filtros
                   ? Filtros.fechaAltaFrom
                     ? format(Filtros.fechaAltaFrom, "yyyy-MM-dd")
-                    : format(subMonths(new Date(), 1), "yyyy-MM-dd")
-                  : format(subMonths(new Date(), 1), "yyyy-MM-dd"),
+                    : format(subWeeks(new Date(), 1), "yyyy-MM-dd")
+                  : format(subWeeks(new Date(), 1), "yyyy-MM-dd"),
                 fechaAltaTo: Filtros
                   ? Filtros.fechaAltaTo
                     ? format(Filtros.fechaAltaTo, "yyyy-MM-dd")
