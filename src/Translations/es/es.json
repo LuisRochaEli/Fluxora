@@ -326,6 +326,9 @@
     "Cancel": "Cancelar",
     "NIP": "NIP",
     "Select": "Selecciona",
-    "EnrollmentHasAlreadyBeenTakenCareOf": "Enrolamiento seleccionado ya ha sido atendido por otro usuario."
+    "EnrollmentHasAlreadyBeenTakenCareOf": "Enrolamiento seleccionado ya ha sido atendido por otro usuario.",
+    "EnrollmentStatus": "Estatus Enrolamiento",
+    "FullEnrollment": "Enrolamiento Completo",
+    "EnrollmentToBeConfirmed": "Enrolamiento por Confirmar"
   }
 }

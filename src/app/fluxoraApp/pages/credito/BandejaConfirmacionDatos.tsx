@@ -1,4 +1,7 @@
-import { FormikCalendario } from "../../../../components/customFormik";
+import {
+  FormikCalendario,
+  FormikSeleccion,
+} from "../../../../components/customFormik";
 import { useFechaUtil } from "../../../../hooks/template/useFechaUtil";
 import { useEnrolamiento } from "../../hooks/credito/useEnrolamiento";
 import { useCatalogo } from "../../../../hooks/catalogos/useCatalogo";
@@ -40,6 +43,7 @@ export const BandejaConfirmacionDatos = () => {
   const [Filtros, setFiltros] = useState<IDtoFiltrosBandejaConfirmacionDatos>({
     fechaAltaFrom: subWeeks(new Date(), 1).toISOString(),
     fechaAltaTo: new Date().toISOString(),
+    enrolamientoCompleto: false,
   });
   const [InfoData, setInfoData] = useState<{
     items: IRegistroConfirmacionDatos[] | [];
@@ -233,17 +237,20 @@ export const BandejaConfirmacionDatos = () => {
                     ? format(Filtros.fechaAltaTo, "yyyy-MM-dd")
                     : format(new Date(), "yyyy-MM-dd")
                   : format(new Date(), "yyyy-MM-dd"),
+                enrolamientoCompleto: Filtros.enrolamientoCompleto ? "1" : "0",
               }}
               onSubmit={async (values) => {
                 setFiltros({
                   fechaAltaFrom: ConversionStringToDate(values.fechaAltaFrom),
                   fechaAltaTo: ConversionStringToDate(values.fechaAltaTo),
+                  enrolamientoCompleto:
+                    values.enrolamientoCompleto === "1" ? true : false,
                 });
               }}
             >
               {(formik) => (
                 <>
-                  <div className="grid grid-grid-cols-2 md:grid-cols-3 gap-3">
+                  <div className="grid grid-grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
                     <div>
                       <FormikCalendario
                         label={`${t("Trays.StartDate")}`}
@@ -258,6 +265,19 @@ export const BandejaConfirmacionDatos = () => {
                         name="fechaAltaTo"
                         type="date"
                         to={true}
+                      />
+                    </div>
+                    <div>
+                      <FormikSeleccion
+                        name={"enrolamientoCompleto"}
+                        options={[
+                          { label: t("Trays.FullEnrollment"), value: "1" },
+                          { label: t("Trays.EnrollmentToBeConfirmed"), value: "0" },
+                        ]}
+                        label={`${t("Trays.EnrollmentStatus")}`}
+                        placeholder={t("Select")}
+                        icon={"i-flag-checkered"}
+                        isClearable={false}
                       />
                     </div>
                     <div className="flex justify-center">

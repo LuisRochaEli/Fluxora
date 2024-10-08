@@ -1,6 +1,7 @@
 interface IDtoFiltrosBandejaConfirmacionDatos {
   fechaAltaFrom: string | Date;
   fechaAltaTo: string | Date;
+  enrolamientoCompleto: string | boolean;
 }
 
 interface IRegistroConfirmacionDatos {
