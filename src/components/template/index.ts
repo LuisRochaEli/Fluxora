@@ -1,3 +1,4 @@
+export { ModalHeader } from './ModalHeader';
 export { CustomButtonModal } from './CustomButtonModal';
 export { CustomCapturePhoto } from "./CustomCapturePhoto";
 export { CustomDatatable } from "./CustomDatatable";

@@ -8,6 +8,7 @@ import { ValidacionesYupCredito } from "../helpers/validaciones";
 import { FaChevronRight, FaEdit, FaSave } from "react-icons/fa";
 import { ChangeRegex } from "../../../helpers/FormatosRegex";
 import { useSpinLoadStore } from "../../../store";
+import { useAuth } from "../hooks/auth/useAuth";
 import { useTranslation } from "react-i18next";
 import { format, startOfDay } from "date-fns";
 import { Formik, FormikProps } from "formik";
@@ -20,10 +21,10 @@ import { useSwal } from "../../../hooks";
 import {
   CustomButtonModal,
   Modal,
+  ModalHeader,
   SwiperImagenes,
 } from "../../../components/template";
 import { useState } from "react";
-import { ModalHeader } from "../../../components/template/ModalHeader";
 
 export const BandejaModal = (props: {
   isOpenModal: boolean;
@@ -59,6 +60,7 @@ export const BandejaModal = (props: {
   } = useEnrolamiento();
   const { ItemHomonimoSeleccionado } = useClienteHomonimosStore();
   const { MostrarCarga, OcultarCargar } = useSpinLoadStore();
+  const { ObtenerInformacionUsuarioAuth } = useAuth();
   //#endregion
 
   //#region USESTATE
@@ -134,6 +136,7 @@ export const BandejaModal = (props: {
     CollectionHomonimos: IHomonimo[],
     IdHomonimoSeleccionado?: number | null
   ) => {
+    const UsuarioLoggeado = await ObtenerInformacionUsuarioAuth()
     const AjaxObj = {
       idOrigen: DataItem && DataItem.idOrigen ? DataItem.idOrigen : null,
       idEnrolamiento:
@@ -141,6 +144,8 @@ export const BandejaModal = (props: {
       homonimosAtendidos: true,
       homonimoRelacionado: IdHomonimoSeleccionado,
       cantidadHomonimos: CollectionHomonimos.length,
+      idUsuario:
+        UsuarioLoggeado && UsuarioLoggeado.id ? UsuarioLoggeado.id : null,
     };
     try {
       MostrarCarga();
