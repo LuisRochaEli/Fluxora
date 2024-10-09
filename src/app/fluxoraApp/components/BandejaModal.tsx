@@ -16,13 +16,14 @@ import {
   FormikSeleccion,
   FormikTexto,
 } from "../../../components/customFormik";
+import { useSwal } from "../../../hooks";
 import {
   CustomButtonModal,
   Modal,
   SwiperImagenes,
 } from "../../../components/template";
-import { useSwal } from "../../../hooks";
 import { useState } from "react";
+import { ModalHeader } from "../../../components/template/ModalHeader";
 
 export const BandejaModal = (props: {
   isOpenModal: boolean;
@@ -113,7 +114,9 @@ export const BandejaModal = (props: {
             ESTATUSBANDEJA_VERIFICACIONDATOS.VERIFICACION_HOMONIMOS
           );
         } else {
-          await ActualizacionConfirmacionHomonimosAtendidos()
+          await ActualizacionConfirmacionHomonimosAtendidos(
+            CollectionHomonimos
+          );
           closeModal(true);
         }
       } catch (error) {
@@ -127,14 +130,17 @@ export const BandejaModal = (props: {
     }
   };
 
-  const ActualizacionConfirmacionHomonimosAtendidos = async () => {
+  const ActualizacionConfirmacionHomonimosAtendidos = async (
+    CollectionHomonimos: IHomonimo[],
+    IdHomonimoSeleccionado?: number | null
+  ) => {
     const AjaxObj = {
       idOrigen: DataItem && DataItem.idOrigen ? DataItem.idOrigen : null,
       idEnrolamiento:
         DataItem && DataItem.identificador ? DataItem.identificador : null,
       homonimosAtendidos: true,
-      homonimoRelacionado: ItemHomonimoSeleccionado,
-      cantidadHomonimos: ListadoHomonimos.length,
+      homonimoRelacionado: IdHomonimoSeleccionado,
+      cantidadHomonimos: CollectionHomonimos.length,
     };
     try {
       MostrarCarga();
@@ -156,24 +162,25 @@ export const BandejaModal = (props: {
 
   return (
     <Modal isOpen={isOpenModal} size="xl" focus={true} fullscreen={"md-down"}>
-      <div className="modal-header bg-skin-primary/70 text-white text-skin-primary/80 text-2xl font-semibold py-2 px-4 justify-between">
-        <h3 className="title-tw-modal">
-          <i className="i-address-card-o mr-2"></i>
-          {t("Trays.DataConfirmation")}
-        </h3>
-        {EstatusProcesoConfirmacionDatos !==
-          ESTATUSBANDEJA_VERIFICACIONDATOS.VERIFICACION_HOMONIMOS && (
-          <button
-            type="button"
-            className="close-tw"
-            onClick={FuncionalidadCierreModal}
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        )}
-      </div>
+      <ModalHeader
+        IconFontello="i-address-card-o"
+        Title={
+          <>
+            {t("Trays.DataConfirmation")}
+            {DataItem && DataItem.identificador && DataItem.origen && (
+              <span className="text-xs mx-10 block mt-2">
+                {`${t("Trays.Identifier").toUpperCase()}:`}
+                <span className="font-normal ml-2">{`${DataItem.identificador} - ${DataItem.origen}`}</span>
+              </span>
+            )}
+          </>
+        }
+        CloseButtonEnabled={
+          EstatusProcesoConfirmacionDatos !==
+          ESTATUSBANDEJA_VERIFICACIONDATOS.VERIFICACION_HOMONIMOS
+        }
+        CloseButtonFunctionality={FuncionalidadCierreModal}
+      />
       <Formik
         enableReinitialize={true}
         initialValues={{
@@ -435,7 +442,12 @@ export const BandejaModal = (props: {
                 <button
                   type="button"
                   className={`btn btn-danger`}
-                  onClick={ActualizacionConfirmacionHomonimosAtendidos}
+                  onClick={() =>
+                    ActualizacionConfirmacionHomonimosAtendidos(
+                      ListadoHomonimos,
+                      ItemHomonimoSeleccionado
+                    )
+                  }
                 >
                   <i className="i-users text-sm mr-1"></i>
                   {t("Trays.HomonymsServed")}
