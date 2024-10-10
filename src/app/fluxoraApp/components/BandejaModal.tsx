@@ -447,7 +447,8 @@ export const BandejaModal = (props: {
                 <button
                   type="button"
                   className={`btn btn-danger`}
-                  onClick={() =>
+                  onClick={() => 
+                    // console.log(ListadoHomonimos, ItemHomonimoSeleccionado)
                     ActualizacionConfirmacionHomonimosAtendidos(
                       ListadoHomonimos,
                       ItemHomonimoSeleccionado

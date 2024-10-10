@@ -140,13 +140,12 @@ export const BandejaConfirmacionDatos = () => {
           ? JSON.parse(row.documentosRelacionadosString)
           : [],
     };
-    console.log(JSON.parse(row.documentosRelacionadosString));
     const DocumentosRelacionadosURLBase64 =
       await EstablecerArchivosVisualizarBase64(row.documentosRelacionados);
     row.documentosRelacionados = DocumentosRelacionadosURLBase64.sort(
       (a: any, b: any) => a.orden - b.orden
     );
-    if (!row.homonimosAtendidos) {
+    if (!row.homonimosAtendidos || !row.datosConfirmados) {
       let EstatusConfirmacionDatos =
         row && row.datosConfirmados
           ? ESTATUSBANDEJA_VERIFICACIONDATOS.VERIFICACION_HOMONIMOS
