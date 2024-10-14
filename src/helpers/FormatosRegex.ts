@@ -8,7 +8,7 @@ export const ChangeRegex = {
   ChangeToTextAddress: (value: string) =>
     value ? value.toString().replace(/[^a-zA-ZÀ-ÿ0-9-ñÑ\s()\-.]/g, "").replace(/[÷×]/, "") : "",
   ChangeToText: (value: string) =>
-    value ? value.toString().replace(/[^a-zA-ZÀ-ÿ-ñÑ\s]/g, "").replace(/[÷×]/, "") : "",
+    value ? value.toString().replace(/[^a-zA-ZÀ-ÿñÑ\s]/g, "").replace(/[÷×]/, "") : "",
   ChangeTextNumber: (value: string) =>
     value ? value.toString().replace(/[^a-zA-Z0-9-ñÑ\s]/g, "").replace(/[÷×]/, "") : "",
   ChangeNumberInt: (value: string) =>
