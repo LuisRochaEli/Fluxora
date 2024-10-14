@@ -136,7 +136,7 @@ export const BandejaModal = (props: {
     CollectionHomonimos: IHomonimo[],
     IdHomonimoSeleccionado?: number | null
   ) => {
-    const UsuarioLoggeado = await ObtenerInformacionUsuarioAuth()
+    const UsuarioLoggeado = await ObtenerInformacionUsuarioAuth();
     const AjaxObj = {
       idOrigen: DataItem && DataItem.idOrigen ? DataItem.idOrigen : null,
       idEnrolamiento:
@@ -210,8 +210,17 @@ export const BandejaModal = (props: {
           botonPrincipal: false,
         }}
         validationSchema={EsquemaValidacionCreditoConfirmacionDatos}
-        onSubmit={(values) => {
+        onSubmit={(values, { setFieldValue }) => {
           setHabilitarEdicion(false);
+          values = {
+            ...values,
+            nombre: values.nombre.trim(),
+            apellidoPaterno: values.apellidoPaterno.trim(),
+            apellidoMaterno: values.apellidoMaterno.trim(),
+          };
+          setFieldValue("nombre", values.nombre);
+          setFieldValue("apellidoPaterno", values.apellidoPaterno);
+          setFieldValue("apellidoMaterno", values.apellidoMaterno);
           if (values.botonPrincipal) {
             GuardarConfirmacionDatos(values);
           }
@@ -447,8 +456,7 @@ export const BandejaModal = (props: {
                 <button
                   type="button"
                   className={`btn btn-danger`}
-                  onClick={() => 
-                    // console.log(ListadoHomonimos, ItemHomonimoSeleccionado)
+                  onClick={() =>
                     ActualizacionConfirmacionHomonimosAtendidos(
                       ListadoHomonimos,
                       ItemHomonimoSeleccionado
