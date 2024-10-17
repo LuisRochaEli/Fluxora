@@ -18,7 +18,27 @@ interface IRegistroConfirmacionDatos {
   homonimosAtendidos: boolean;
   edad: string;
   documentosRelacionados: IDocumento[];
-  documentosRelacionadosString: string
+  documentosRelacionadosString: string;
+}
+
+interface IEnrolamientoOrigen {
+  datosPersonales: IEnrolamientoDatosPersonales;
+  documentosRelacionados: IDocumento[];
+}
+
+interface IEnrolamientoDatosPersonales {
+  idOrigen: number;
+  origen: string;
+  identificador: number;
+  nombre: string;
+  apellidos: string;
+  apellidoPaterno: string;
+  apellidoMaterno: string;
+  idGenero: number | null;
+  fechaNacimiento: Date;
+  datosConfirmados: boolean;
+  homonimosAtendidos: boolean;
+  edad: string;
 }
 
 interface IDocumento {

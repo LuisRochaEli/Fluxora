@@ -37,9 +37,28 @@ export const useEnrolamiento = () => {
     }
   };
 
+  const ObtenerItemEnrolamientoOrigen = async (
+    IdOrigen: number,
+    IdEnrolamiento: number
+  ) => {
+    let respuesta;
+    try {
+      const AjaxObj = {
+        idOrigenEnrolamiento: IdOrigen,
+        idEnrolamiento: IdEnrolamiento,
+      };
+      respuesta =
+        await EnrolamientoServicio.ObtenerItemEnrolamientoOrigen(AjaxObj);
+      return respuesta;
+    } catch (error) {
+      throw error;
+    }
+  };
+
   return {
     ObtenerListadoEnrolamientoConfirmacionDatos,
     ObtenerListadoHomonimos,
     InsertarActualizarRelacionEnrolamientoOrigen,
+    ObtenerItemEnrolamientoOrigen,
   };
 };

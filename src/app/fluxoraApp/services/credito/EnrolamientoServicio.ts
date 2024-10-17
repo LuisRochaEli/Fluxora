@@ -65,3 +65,26 @@ export const InsertarActualizarRelacionEnrolamientoOrigen = async (
   }
   return Result.data;
 };
+
+/**************************************************************************
+ * @description Método para obtener listado de homonimos
+ * @author Luis Angel Rocha Palacios
+ * @version 2.0 17/10/2024
+ * @params
+ **************************************************************************/
+export const ObtenerItemEnrolamientoOrigen = async (
+  data: any
+): Promise<any> => {
+  let Result;
+  try {
+    Result = await httpInstanceCreditos.get(
+      `/Enrolamiento/EnrolamientoOrigenItem`,
+      {
+        params: data,
+      }
+    );
+  } catch (error) {
+    throw (Result = ValidacionErrores(error));
+  }
+  return Result.data;
+};

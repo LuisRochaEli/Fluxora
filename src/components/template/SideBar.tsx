@@ -1,4 +1,10 @@
-import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
+import {
+  Sidebar,
+  Menu,
+  MenuItem,
+  SubMenu,
+  menuClasses,
+} from "react-pro-sidebar";
 import LogoResponsivoSVG from "../../assets/LogoResponsivo.svg";
 import { useSideMenuStore } from "../../store";
 import { useNavigate } from "react-router-dom";
@@ -36,6 +42,12 @@ export const SideBar = (props: Sidebar) => {
           if (x?.subMenu?.length <= 0) {
             return (
               <MenuItem
+                rootStyles={{
+                  ["." + menuClasses.label]: {
+                    whiteSpace: "normal",
+                    textAlign: "center",
+                  },
+                }}
                 key={index}
                 icon={x.icono}
                 onClick={() => NavegarRutaItem(x)}
@@ -80,7 +92,7 @@ export const SideBar = (props: Sidebar) => {
               : "rgb(249,249,249)"
           }
           onBackdropClick={() => setAlternarMenuResponsivo(false)}
-          customBreakPoint= "1000px"//"767px"
+          customBreakPoint="1000px" //"767px"
           collapsed={ColapsoMenu}
           toggled={AlternarMenuResponsivo}
         >

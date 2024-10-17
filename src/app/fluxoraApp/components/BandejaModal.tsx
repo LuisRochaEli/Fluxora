@@ -7,10 +7,10 @@ import { useCatalogo } from "../../../hooks/catalogos/useCatalogo";
 import { ValidacionesYupCredito } from "../helpers/validaciones";
 import { FaChevronRight, FaEdit, FaSave } from "react-icons/fa";
 import { ChangeRegex } from "../../../helpers/FormatosRegex";
+import { format, isAfter, startOfDay } from "date-fns";
 import { useSpinLoadStore } from "../../../store";
 import { useAuth } from "../hooks/auth/useAuth";
 import { useTranslation } from "react-i18next";
-import { format, startOfDay } from "date-fns";
 import { Formik, FormikProps } from "formik";
 import {
   FormikCalendario,
@@ -29,7 +29,7 @@ import { useState } from "react";
 export const BandejaModal = (props: {
   isOpenModal: boolean;
   closeModal: (x: boolean) => void;
-  DataItem: IRegistroConfirmacionDatos | null;
+  DataItem: IEnrolamientoOrigen | null;
   EstatusProcesoConfirmacionDatos: number | null;
   setEstatusProcesoConfirmacionDatos: React.Dispatch<
     React.SetStateAction<number | null>
@@ -58,7 +58,8 @@ export const BandejaModal = (props: {
     ObtenerListadoHomonimos,
     InsertarActualizarRelacionEnrolamientoOrigen,
   } = useEnrolamiento();
-  const { ItemHomonimoSeleccionado } = useClienteHomonimosStore();
+  const { ItemHomonimoSeleccionado, DeseleccionarItemHomonimo } =
+    useClienteHomonimosStore();
   const { MostrarCarga, OcultarCargar } = useSpinLoadStore();
   const { ObtenerInformacionUsuarioAuth } = useAuth();
   //#endregion
@@ -87,7 +88,12 @@ export const BandejaModal = (props: {
       try {
         MostrarCarga();
         const AjaxObj = {
-          idOrigen: DataItem && DataItem.idOrigen ? DataItem.idOrigen : null,
+          idOrigen:
+            DataItem &&
+            DataItem.datosPersonales &&
+            DataItem.datosPersonales.idOrigen
+              ? DataItem.datosPersonales.idOrigen
+              : null,
           idEnrolamiento:
             values && values.identificador ? values.identificador : null,
           datosConfirmados: true,
@@ -138,9 +144,18 @@ export const BandejaModal = (props: {
   ) => {
     const UsuarioLoggeado = await ObtenerInformacionUsuarioAuth();
     const AjaxObj = {
-      idOrigen: DataItem && DataItem.idOrigen ? DataItem.idOrigen : null,
+      idOrigen:
+        DataItem &&
+        DataItem.datosPersonales &&
+        DataItem.datosPersonales.idOrigen
+          ? DataItem.datosPersonales.idOrigen
+          : null,
       idEnrolamiento:
-        DataItem && DataItem.identificador ? DataItem.identificador : null,
+        DataItem &&
+        DataItem.datosPersonales &&
+        DataItem.datosPersonales.identificador
+          ? DataItem.datosPersonales.identificador
+          : null,
       homonimosAtendidos: true,
       homonimoRelacionado: IdHomonimoSeleccionado,
       cantidadHomonimos: CollectionHomonimos.length,
@@ -150,6 +165,7 @@ export const BandejaModal = (props: {
     try {
       MostrarCarga();
       await InsertarActualizarRelacionEnrolamientoOrigen(AjaxObj);
+      DeseleccionarItemHomonimo();
       closeModal(true);
     } catch (error) {
       MostrarMensaje(
@@ -172,12 +188,15 @@ export const BandejaModal = (props: {
         Title={
           <>
             {t("Trays.DataConfirmation")}
-            {DataItem && DataItem.identificador && DataItem.origen && (
-              <span className="text-xs mx-10 block mt-2">
-                {`${t("Trays.Identifier").toUpperCase()}:`}
-                <span className="font-normal ml-2">{`${DataItem.identificador} - ${DataItem.origen}`}</span>
-              </span>
-            )}
+            {DataItem &&
+              DataItem.datosPersonales &&
+              DataItem.datosPersonales.identificador &&
+              DataItem.datosPersonales.origen && (
+                <span className="text-xs mx-10 block mt-2">
+                  {`${t("Trays.Identifier").toUpperCase()}:`}
+                  <span className="font-normal ml-2">{`${DataItem.datosPersonales.identificador} - ${DataItem.datosPersonales.origen}`}</span>
+                </span>
+              )}
           </>
         }
         CloseButtonEnabled={
@@ -190,23 +209,50 @@ export const BandejaModal = (props: {
         enableReinitialize={true}
         initialValues={{
           identificador:
-            DataItem && DataItem.identificador ? DataItem.identificador : null,
+            DataItem &&
+            DataItem.datosPersonales &&
+            DataItem.datosPersonales.identificador
+              ? DataItem.datosPersonales.identificador
+              : null,
           nombre:
-            DataItem && DataItem.nombre ? DataItem.nombre.toUpperCase() : "",
+            DataItem &&
+            DataItem.datosPersonales &&
+            DataItem.datosPersonales.nombre
+              ? DataItem.datosPersonales.nombre.toUpperCase()
+              : "",
           apellidoPaterno:
-            DataItem && DataItem.apellidoPaterno
-              ? DataItem.apellidoPaterno.toUpperCase()
+            DataItem &&
+            DataItem.datosPersonales &&
+            DataItem.datosPersonales.apellidoPaterno
+              ? DataItem.datosPersonales.apellidoPaterno.toUpperCase()
               : "",
           apellidoMaterno:
-            DataItem && DataItem.apellidoMaterno
-              ? DataItem.apellidoMaterno.toUpperCase()
+            DataItem &&
+            DataItem.datosPersonales &&
+            DataItem.datosPersonales.apellidoMaterno
+              ? DataItem.datosPersonales.apellidoMaterno.toUpperCase()
               : "",
           fechaNacimiento:
-            DataItem && DataItem.fechaNacimiento
-              ? format(new Date(DataItem.fechaNacimiento), "yyyy-MM-dd")
+            DataItem &&
+            DataItem.datosPersonales &&
+            DataItem.datosPersonales.fechaNacimiento
+              ? format(
+                  new Date(DataItem.datosPersonales.fechaNacimiento),
+                  "yyyy-MM-dd"
+                )
               : "",
-          idGenero: DataItem && DataItem.idGenero ? DataItem.idGenero : null,
-          edad: DataItem && DataItem.edad ? DataItem.edad : "",
+          idGenero:
+            DataItem &&
+            DataItem.datosPersonales &&
+            DataItem.datosPersonales.idGenero
+              ? DataItem.datosPersonales.idGenero
+              : null,
+          edad:
+            DataItem &&
+            DataItem.datosPersonales &&
+            DataItem.datosPersonales.edad
+              ? DataItem.datosPersonales.edad
+              : "",
           botonPrincipal: false,
         }}
         validationSchema={EsquemaValidacionCreditoConfirmacionDatos}
@@ -394,14 +440,15 @@ export const BandejaModal = (props: {
                               label={`${t("Trays.DateOfBirth")} *`}
                               name="fechaNacimiento"
                               type="date"
+                              min={format(new Date(1900, 0), "yyyy-MM-dd")}
                               onChange={(
                                 e: React.ChangeEvent<HTMLInputElement>
                               ) => {
-                                formik.setFieldValue(
-                                  "fechaNacimiento",
+                                const FechaNacimiento = ConversionStringToDate(
                                   e.target.value
                                 );
-                                const FechaNacimiento = ConversionStringToDate(
+                                formik.setFieldValue(
+                                  "fechaNacimiento",
                                   e.target.value
                                 );
                                 formik.setFieldValue(
@@ -410,6 +457,21 @@ export const BandejaModal = (props: {
                                     ? CalcularEdad(FechaNacimiento)
                                     : ""
                                 );
+                              }}
+                              onBlur={(
+                                e: React.FocusEvent<HTMLInputElement>
+                              ) => {
+                                const FechaNacimiento = ConversionStringToDate(
+                                  e.target.value
+                                );
+                                if (
+                                  FechaNacimiento &&
+                                  isAfter(FechaNacimiento, new Date(1900, 0))
+                                ) {
+                                } else {
+                                  formik.setFieldValue("fechaNacimiento", "");
+                                  formik.setFieldValue("edad", "");
+                                }
                               }}
                               disabled={!HabilitarEdicion}
                             />

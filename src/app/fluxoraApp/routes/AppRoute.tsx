@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { BandejaConfirmacionDatos } from "../pages/credito/BandejaConfirmacionDatos";
+import { HomePage } from "../../../pages/Home";
 // import { HomePage } from "../pages/Home";
 // import { CreditoBandejaClientesEnrolamiento } from "../pages/CreditoBandejaClientesEnrolamiento";
 // import { CreditoDatosPersonales } from "../pages/credito/CreditoDatosPersonales";
@@ -11,7 +12,7 @@ import { BandejaConfirmacionDatos } from "../pages/credito/BandejaConfirmacionDa
 export const AppRoute = () => {
   return (
     <Routes>
-      <Route path={`PaginaPrincipal`} element={<></>} />
+      <Route path={`PaginaPrincipal`} element={<HomePage></HomePage>} />
       <Route
         path={`Credito/BandejaConfirmacionDatos`}
         element={<BandejaConfirmacionDatos />}

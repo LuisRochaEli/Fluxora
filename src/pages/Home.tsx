@@ -1,7 +1,7 @@
 import { useTitulo } from "../hooks/template/useTitulo";
+import MuebleriaImg from "../assets/Muebleria.svg";
 import { useTranslation } from "react-i18next";
-import MuebleriaImg from "../../../assets/Muebleria.svg";
-import LogoImg from "../../../assets/Logo_2.svg";
+import LogoImg from "../assets/Logo_2.svg";
 import { useEffect } from "react";
 
 export const HomePage = () => {

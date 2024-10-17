@@ -1,7 +1,3 @@
-import {
-  FormikCalendario,
-  FormikSeleccion,
-} from "../../../../components/customFormik";
 import { useFechaUtil } from "../../../../hooks/template/useFechaUtil";
 import { useEnrolamiento } from "../../hooks/credito/useEnrolamiento";
 import { useCatalogo } from "../../../../hooks/catalogos/useCatalogo";
@@ -15,6 +11,10 @@ import { CgEditBlackPoint } from "react-icons/cg";
 import { useTranslation } from "react-i18next";
 import { format, subWeeks } from "date-fns";
 import { useEffect, useState } from "react";
+import {
+  FormikCalendario,
+  FormikSeleccion,
+} from "../../../../components/customFormik";
 import { Spinner } from "react-bootstrap";
 import { Formik } from "formik";
 import {
@@ -34,6 +34,7 @@ export const BandejaConfirmacionDatos = () => {
   const {
     ObtenerListadoEnrolamientoConfirmacionDatos,
     ObtenerListadoHomonimos,
+    ObtenerItemEnrolamientoOrigen,
   } = useEnrolamiento();
   const { MostrarMensaje } = useSwal();
   const { EstablecerArchivosVisualizarBase64 } = useDocumento();
@@ -51,7 +52,7 @@ export const BandejaConfirmacionDatos = () => {
     items: [],
   });
   const [ItemRegistroPorConfirmar, setItemRegistroPorConfirmar] =
-    useState<IRegistroConfirmacionDatos | null>(null);
+    useState<IEnrolamientoOrigen | null>(null);
   const [EstatusProcesoConfirmacionDatos, setEstatusProcesoConfirmacionDatos] =
     useState<number | null>(null);
   const [ListadoHomonimos, setListadoHomonimos] = useState<IHomonimo[]>([]);
@@ -132,44 +133,64 @@ export const BandejaConfirmacionDatos = () => {
   const VisualizarDetallesRegistro = async (
     row: IRegistroConfirmacionDatos
   ) => {
-    row = {
-      ...row,
-      edad: CalcularEdad(row.fechaNacimiento),
-      documentosRelacionados:
-        row && row.documentosRelacionadosString
-          ? JSON.parse(row.documentosRelacionadosString)
-          : [],
-    };
-    const DocumentosRelacionadosURLBase64 =
-      await EstablecerArchivosVisualizarBase64(row.documentosRelacionados);
-    row.documentosRelacionados = DocumentosRelacionadosURLBase64.sort(
-      (a: any, b: any) => a.orden - b.orden
-    );
     if (!row.homonimosAtendidos || !row.datosConfirmados) {
-      let EstatusConfirmacionDatos =
-        row && row.datosConfirmados
-          ? ESTATUSBANDEJA_VERIFICACIONDATOS.VERIFICACION_HOMONIMOS
-          : ESTATUSBANDEJA_VERIFICACIONDATOS.VERIFICACION_INFORMACIONCAPTURADA;
-      if (
-        EstatusConfirmacionDatos ===
-        ESTATUSBANDEJA_VERIFICACIONDATOS.VERIFICACION_HOMONIMOS
-      ) {
-        const CollectionHomonimos = await ObtenerListadoHomonimos({
-          nombre: row.nombre.trim(),
-          apellidoPaterno: row.apellidoPaterno.trim(),
-          apellidoMaterno: row.apellidoMaterno.trim(),
-          fechaNacimiento:
-            row && row.fechaNacimiento ? row.fechaNacimiento : null,
-        });
-        setListadoHomonimos(
-          CollectionHomonimos && CollectionHomonimos.length > 0
-            ? CollectionHomonimos
-            : []
+      try {
+        let ItemEnrolamientoOrigen = await ObtenerItemEnrolamientoOrigen(
+          row.idOrigen,
+          row.identificador
+        );
+        ItemEnrolamientoOrigen.datosPersonales = {
+          ...ItemEnrolamientoOrigen.datosPersonales,
+          edad: CalcularEdad(
+            ItemEnrolamientoOrigen.datosPersonales.fechaNacimiento
+          ),
+        };
+        const DocumentosRelacionadosURLBase64 =
+          await EstablecerArchivosVisualizarBase64(
+            ItemEnrolamientoOrigen.documentosRelacionados
+          );
+        ItemEnrolamientoOrigen.documentosRelacionados =
+          DocumentosRelacionadosURLBase64.sort(
+            (a: any, b: any) => a.orden - b.orden
+          );
+        let EstatusConfirmacionDatos =
+          ItemEnrolamientoOrigen &&
+          ItemEnrolamientoOrigen.datosPersonales &&
+          ItemEnrolamientoOrigen.datosPersonales.datosConfirmados
+            ? ESTATUSBANDEJA_VERIFICACIONDATOS.VERIFICACION_HOMONIMOS
+            : ESTATUSBANDEJA_VERIFICACIONDATOS.VERIFICACION_INFORMACIONCAPTURADA;
+        if (
+          EstatusConfirmacionDatos ===
+          ESTATUSBANDEJA_VERIFICACIONDATOS.VERIFICACION_HOMONIMOS
+        ) {
+          const CollectionHomonimos = await ObtenerListadoHomonimos({
+            nombre: ItemEnrolamientoOrigen.datosPersonales.nombre.trim(),
+            apellidoPaterno:
+              ItemEnrolamientoOrigen.datosPersonales.apellidoPaterno.trim(),
+            apellidoMaterno:
+              ItemEnrolamientoOrigen.datosPersonales.apellidoMaterno.trim(),
+            fechaNacimiento:
+              ItemEnrolamientoOrigen &&
+              ItemEnrolamientoOrigen.datosPersonales &&
+              ItemEnrolamientoOrigen.datosPersonales.fechaNacimiento
+                ? ItemEnrolamientoOrigen.datosPersonales.fechaNacimiento
+                : null,
+          });
+          setListadoHomonimos(
+            CollectionHomonimos && CollectionHomonimos.length > 0
+              ? CollectionHomonimos
+              : []
+          );
+        }
+        setEstatusProcesoConfirmacionDatos(EstatusConfirmacionDatos);
+        setItemRegistroPorConfirmar(ItemEnrolamientoOrigen);
+        BModal.openModal();
+      } catch {
+        MostrarMensaje(
+          "warning",
+          t("AnErrorOcurredPleaseContactSystemDepartmant")
         );
       }
-      setEstatusProcesoConfirmacionDatos(EstatusConfirmacionDatos);
-      setItemRegistroPorConfirmar(row);
-      BModal.openModal();
     } else {
       MostrarMensaje("warning", t("Trays.EnrollmentHasAlreadyBeenTakenCareOf"));
     }

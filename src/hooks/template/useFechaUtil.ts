@@ -15,12 +15,19 @@ export const useFechaUtil = () => {
       FechaSplit = FechaSplit.map((x: string) => {
         return parseInt(x);
       });
-      let FormatoFecha: Date = new Date(
-        FechaSplit[2],
-        FechaSplit[1] - 1,
-        FechaSplit[0]
-      );
-      return FormatoFecha;
+      if (FechaSplit[2] >= 100) {
+        let FormatoFecha: Date = new Date(
+          FechaSplit[2],
+          FechaSplit[1] - 1,
+          FechaSplit[0]
+        );
+        return FormatoFecha;
+      } else {
+        let FormatoFecha: Date = new Date(
+          `${PadStartConCeros(FechaSplit[2], 4)}-${PadStartConCeros(FechaSplit[1], 2)}-${PadStartConCeros(FechaSplit[0] + 1, 2)}`
+        );
+        return FormatoFecha;
+      }
     } else {
       return "";
     }
@@ -40,6 +47,10 @@ export const useFechaUtil = () => {
         ? `${Edad} ${t("Year").toUpperCase()}`
         : `${Edad} ${t("Years").toUpperCase()}`;
     return TextoEdad;
+  };
+
+  const PadStartConCeros = (num: number, totalLength: number) => {
+    return num.toString().padStart(totalLength, "0");
   };
 
   return {
