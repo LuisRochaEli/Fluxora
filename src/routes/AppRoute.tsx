@@ -16,7 +16,6 @@ import { httpInstanceCreditos } from "../helpers/httpSINELI";
 export const AppRoute = () => {
   const { EstatusAutenticacion } = useAuthStore();
 
-  console.log(APLICACION_MOVIL)
   return (
     <div className="m-0 p-0">
       <Routes>

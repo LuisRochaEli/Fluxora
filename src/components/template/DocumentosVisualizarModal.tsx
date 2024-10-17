@@ -10,7 +10,6 @@ export const DocumentosVisualizarModal = (props: any) => {
   const [t] = useTranslation("global");
   //#endregion HOOKS
 
-  console.log(ArrayDocumentos)
   //#region VARIABLES
   //#endregion VARIABLES
 

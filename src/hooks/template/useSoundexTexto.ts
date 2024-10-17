@@ -9,7 +9,6 @@ export const useSoundexTexto = () => {
       TextoPrincipal,
       TextoSecundario
     );
-    console.log(SimilitudPorcentaje)
     return SimilitudPorcentaje >= Porcentaje;
   };
 

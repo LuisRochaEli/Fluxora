@@ -20,7 +20,6 @@ export const AppLogin = () => {
   //#region USEEFFECT
   useEffect(() => {
     (async () => {
-      console.log("kakak")
       // NavegarRuta(`${APLICACION_MOVIL ? "" : SERVER_ROUTE}`);
     })();
   }, []);
