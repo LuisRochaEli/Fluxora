@@ -69,6 +69,7 @@ export const useDocumento = () => {
   const base64 = async(HexString: string) => {
     const ByteArray = await ConvertirHexToByteArray(HexString);
     const Base64String = await  ConvertirByteArrayToBase64(ByteArray);
+    return Base64String
   };
 
   const ObtenerTipoMimePorExtension = (Path: string) => {
