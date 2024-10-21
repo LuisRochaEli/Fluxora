@@ -5,7 +5,7 @@ import { CreditoListadoHomonimos } from "./CreditoListadoHomonimos";
 import { useEnrolamiento } from "../hooks/credito/useEnrolamiento";
 import { useCatalogo } from "../../../hooks/catalogos/useCatalogo";
 import { ValidacionesYupCredito } from "../helpers/validaciones";
-import { FaChevronRight, FaEdit, FaSave } from "react-icons/fa";
+import { FaChevronRight, FaEdit } from "react-icons/fa";
 import { ChangeRegex } from "../../../helpers/FormatosRegex";
 import { format, isAfter, startOfDay } from "date-fns";
 import { useSpinLoadStore } from "../../../store";
@@ -335,16 +335,7 @@ export const BandejaModal = (props: {
                             ).toUpperCase()}
                           </div>
                           <div className="col-span-3 flex justify-end">
-                            {HabilitarEdicion ? (
-                              <CustomButtonModal
-                                FunctionOnClick={() => {
-                                  formik.setFieldValue("botonPrincipal", false);
-                                  formik.handleSubmit();
-                                }}
-                                Icon={<FaSave />}
-                                Title={t("Trays.Save")}
-                              />
-                            ) : (
+                            {!HabilitarEdicion && (
                               <CustomButtonModal
                                 FunctionOnClick={() => {
                                   formik.setFieldValue("botonPrincipal", false);

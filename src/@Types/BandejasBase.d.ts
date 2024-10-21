@@ -8,6 +8,7 @@ interface IRegistroConfirmacionDatos {
   idOrigen: number;
   origen: string;
   identificador: number;
+  nip: number;
   nombre: string;
   apellidos: string;
   apellidoPaterno: string;

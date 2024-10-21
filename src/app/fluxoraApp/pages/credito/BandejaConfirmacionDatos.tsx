@@ -71,7 +71,8 @@ export const BandejaConfirmacionDatos = () => {
     {
       name: t("Trays.Identifier"),
       selector: (row: IRegistroConfirmacionDatos) =>
-        row && row.identificador ? row.identificador : "",
+        row && row.nip ? row.nip : "",
+        // row && row.identificador ? row.identificador : "",
       center: 1,
     },
     {
