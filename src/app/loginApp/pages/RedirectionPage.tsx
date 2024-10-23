@@ -29,6 +29,7 @@ export const RedirectionPage = () => {
   const { EncriptarDesencriptarToken } = useToken();
   const { history } = window;
   const { ObtenerInformacionUsuarioAuth } = useAuth();
+  const { CambiosRuta } = TokenConfig.CambioRutasAPI();
   //#endregion
 
   //#region USESTATE
@@ -143,6 +144,7 @@ export const RedirectionPage = () => {
   //#region USEEFFECT
   useEffect(() => {
     (async () => {
+      CambiosRuta();
       history.replaceState({}, "", "Usuario");
       FuncionalidadRedireccionamiento(params);
     })();
