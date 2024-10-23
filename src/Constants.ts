@@ -100,6 +100,11 @@ export const MASCARA_TELEFONO = {
     /\d/,
   ],
 };
+
+export const TOKEN_DATOS = {
+  ENCRIPTAR: "ENCRIPTAR",
+  DESENCRIPTAR: "DESENCRIPTAR",
+};
 //#endregion FORMATOS
 
 //#region APLICACION ESPECIFICA

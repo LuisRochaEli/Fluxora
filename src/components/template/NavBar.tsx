@@ -5,8 +5,9 @@ import { useAuthStore, useSideMenuStore, useSpinLoadStore } from "../../store";
 import LogoSVG from "../../assets/Logo_2.svg";
 import { HiMenuAlt1 } from "react-icons/hi";
 import { FaUserTie } from "react-icons/fa";
-import { TOKEN_KEY } from "../../Constants";
+import { APLICACION_MOVIL, SERVER_ROUTE, TOKEN_KEY } from "../../Constants";
 import { TbLogout } from "react-icons/tb";
+import { useNavigate } from "react-router-dom";
 
 export const NavBar = () => {
   //#region HOOKS
@@ -21,6 +22,7 @@ export const NavBar = () => {
   const { Usuario } = useLogInStore();
   const { MostrarCarga, OcultarCargar } = useSpinLoadStore();
   const { onLogout } = useAuthStore();
+  const NavegarRuta = useNavigate();
   //#endregion HOOKS
 
   //#region VARIABLES
@@ -34,6 +36,7 @@ export const NavBar = () => {
     MostrarCarga();
     localStorage.removeItem(TOKEN_KEY);
     onLogout();
+    NavegarRuta(APLICACION_MOVIL ? "" : SERVER_ROUTE);
     OcultarCargar();
   };
   //#endregion FUNCIONES

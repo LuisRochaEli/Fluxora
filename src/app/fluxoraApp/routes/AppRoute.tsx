@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { BandejaConfirmacionDatos } from "../pages/credito/BandejaConfirmacionDatos";
 import { HomePage } from "../../../pages/Home";
+import { RedirectionPage } from "../../loginApp/pages/RedirectionPage";
 // import { HomePage } from "../pages/Home";
 // import { CreditoBandejaClientesEnrolamiento } from "../pages/CreditoBandejaClientesEnrolamiento";
 // import { CreditoDatosPersonales } from "../pages/credito/CreditoDatosPersonales";
@@ -19,6 +20,7 @@ export const AppRoute = () => {
       />
 
       <Route path={`*`} element={<Navigate to={`PaginaPrincipal`} />} />
+      <Route path={`Redirection/:Page/:Token`} element={<RedirectionPage />} />
       {/* Rutas del Proyecto */}
       {/* <Route path={``} element={<CreditoDatosPersonales />} /> */}
       {/* <Route

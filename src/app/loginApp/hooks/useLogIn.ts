@@ -13,6 +13,7 @@ export const useLogIn = () => {
     sucursal: string
   ) => {
     try {
+      
       const respuesta = await LogInServicio.AccederUsuario({
         usuario,
         contrasena,
@@ -22,6 +23,7 @@ export const useLogIn = () => {
         fechaExpiracion: respuesta.token_valid_to,
         token: respuesta.token,
         usuario: respuesta.usuario,
+        sucursal: parseInt(sucursal),
       });
       EstablecerUsuario(respuesta.usuario);
       EstablecerToken(respuesta.token);
