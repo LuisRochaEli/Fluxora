@@ -65,9 +65,9 @@ export const RedirectionPage = () => {
             : ""
           : ""
       );
-      const Usuario = Token.split("_")[0];
-      const Contrasena = Token.split("_")[1];
-      const Sucursal = Token.split("_")[2];
+      const Usuario = Token.split("&_&")[0];
+      const Contrasena = Token.split("&_&")[1];
+      const Sucursal = Token.split("&_&")[2];
       if (Usuario && Contrasena && Sucursal) {
         onChecking();
         await AccederUsuario(Usuario, Contrasena, Sucursal.toString());
@@ -110,7 +110,7 @@ export const RedirectionPage = () => {
               ) {
                 const UsuarioItem = await ObtenerInformacionUsuarioAuth();
                 if (
-                  UsuarioItem.id.toString() === TokenDesencriptado.split("_")[0]
+                  UsuarioItem.id.toString() === TokenDesencriptado.split("&_&")[0]
                 ) {
                   NavegarRuta(RutaRedireccion);
                 } else {
