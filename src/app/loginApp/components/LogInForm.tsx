@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import { ChangeRegex } from "../../../helpers/FormatosRegex";
 import { FormikTexto } from "../../../components/customFormik";
 import { useSwal } from "../../../hooks";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useAmbienteStore } from "../../../store/template/useAmbienteStore";
 import { DesencriptarValores, EncriptarValores } from "../../../helpers/Crypto";
 import { AMBIENTES, NOMBRES_API } from "../../../Constants";
@@ -147,6 +147,11 @@ export const LogInForm = () => {
                   focus="text-red-400"
                   bg="bg-green-400"
                   icon="i-lock"
+                  onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                    if (e.key === "Enter") {
+                      formik.handleSubmit();
+                    }
+                  }}
                 />{" "}
                 <button
                   onClick={(_e) => {
