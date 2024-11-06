@@ -229,5 +229,5 @@ export const HTTP_INSTANCE = {
   LOGIN: `https://www.elizondo.mx:5050/<%Ambiente%>/basics/usuario/login/`,
   BASICS: `https://www.elizondo.mx:5050/<%Ambiente%>/basics`,
   DOCUMENTOS: `https://www.elizondo.mx:5050/<%Ambiente%>/documentos`,
-  CREDITOS: `https://www.elizondo.mx:5050/<%Ambiente%>/AppCreditoTest`
+  CREDITOS: `https://www.elizondo.mx:5050/<%Ambiente%>/AppCredito`
 }

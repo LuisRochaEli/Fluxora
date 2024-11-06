@@ -100,7 +100,7 @@ export const LogInForm = () => {
       >
         {(formik) => (
           <>
-            <div className="grid grid-flow-row items-center justify-center w-fit px-8 sm:px-0 md:px-16 text-LogLightText rounded-3xl border-[1px] backdrop-blur-[3px] transition duration-1000 ease-in-out relative py-4 shadow-lg">
+            <div className="grid grid-flow-row items-center justify-center w-fit px-8 sm:px-0 md:px-16 text-LogLightText rounded-3xl border-[1px] backdrop-blur-[3px] transition duration-1000 ease-in-out relative py-4 shadow-lg bg-white">
               <div className="grid justify-center items-center w-full sm:w-4/6 md:w-full mx-auto gap-y-3 mt-3">
                 <div className="flex justify-center mb-1">
                   <img

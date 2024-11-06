@@ -49,10 +49,10 @@ export const CambioRutasAPI = () => {
       );
       httpInstanceCreditos.defaults.baseURL = HTTP_INSTANCE.CREDITOS.replace(
         "<%Ambiente%>",
-        "sineli"
+        "api-sineli"
       );
       httpInstanceDocumentos.defaults.baseURL =
-        HTTP_INSTANCE.DOCUMENTOS.replace("<%Ambiente%>", "sineli");
+        HTTP_INSTANCE.DOCUMENTOS.replace("<%Ambiente%>", "api-sineli");
       httpInstanceSysWebApp.defaults.baseURL =
         httpInstanceSysWebApp.defaults.baseURL?.replace(
           "<%Ambiente%>",
@@ -69,8 +69,8 @@ export const CambioRutasAPI = () => {
       );
       httpInstanceCreditos.defaults.baseURL = HTTP_INSTANCE.CREDITOS.replace(
         "<%Ambiente%>",
-        "sineli"
-      );
+        "api-sineli"
+      ).replace("AppCredito", "AppCreditoTest");
       httpInstanceDocumentos.defaults.baseURL =
         HTTP_INSTANCE.DOCUMENTOS.replace("<%Ambiente%>", "sineli");
       httpInstanceSysWebApp.defaults.baseURL =
