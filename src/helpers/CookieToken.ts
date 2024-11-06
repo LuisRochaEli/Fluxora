@@ -69,7 +69,7 @@ export const CambioRutasAPI = () => {
       );
       httpInstanceCreditos.defaults.baseURL = HTTP_INSTANCE.CREDITOS.replace(
         "<%Ambiente%>",
-        "api-sineli"
+        "sineli"
       ).replace("AppCredito", "AppCreditoTest");
       httpInstanceDocumentos.defaults.baseURL =
         HTTP_INSTANCE.DOCUMENTOS.replace("<%Ambiente%>", "sineli");
