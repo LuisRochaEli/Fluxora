@@ -94,7 +94,7 @@ export const AppFluxora = () => {
       );
     })();
   }, []);
-
+  
   //#endregion
 
   //#region USEEFFECT
@@ -129,6 +129,14 @@ export const AppFluxora = () => {
         </>
       ) : (
         <div className="bg-skin-mainBG h-fit">
+          {DesencriptarValores(Ambiente ? Ambiente : "") === AMBIENTES.QA && (
+            <>
+              <div className="text-xs text-white text-center border-1 py-1 px-2 border-skin-primary/30 z-50 bottom-3 left-4 bg-skin-primary/80 font-medium">
+                {t("TestingEnvironment")}
+              </div>
+              <div className="bg-white h-1"></div>{" "}
+            </>
+          )}
           <div className="flex h-[100vh] md:h-[100vh]">
             <SideBar ListadoMenu={Data}></SideBar>
             <main

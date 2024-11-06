@@ -1,5 +1,5 @@
 import axios from "axios";
-import { PRIVATE_APIKEY_SUMA } from "../Constants";
+import { HTTP_INSTANCE, PRIVATE_APIKEY_SUMA } from "../Constants";
 
 const httpInstanceBridget = axios.create({
   baseURL: "http://localhost:1301/",
@@ -14,7 +14,7 @@ httpInstanceBridget.interceptors.request.use(
 
 //#region API ELIZONDO
 const httpInstanceLogin = axios.create({
-  baseURL: `https://www.elizondo.mx:5050/<%Ambiente%>/basics/usuario/login/`,
+  baseURL: HTTP_INSTANCE.LOGIN,
 });
 
 httpInstanceLogin.interceptors.request.use(
@@ -25,7 +25,7 @@ httpInstanceLogin.interceptors.request.use(
 );
 
 const httpInstanceBasics = axios.create({
-  baseURL: `https://www.elizondo.mx:5050/<%Ambiente%>/basics`,
+  baseURL: HTTP_INSTANCE.BASICS,
 });
 
 httpInstanceBasics.interceptors.request.use(
@@ -36,7 +36,7 @@ httpInstanceBasics.interceptors.request.use(
 );
 
 const httpInstanceDocumentos = axios.create({
-  baseURL: `https://www.elizondo.mx:5050/<%Ambiente%>/documentos`,
+  baseURL: HTTP_INSTANCE.DOCUMENTOS,
 });
 
 httpInstanceDocumentos.interceptors.request.use(
@@ -47,7 +47,7 @@ httpInstanceDocumentos.interceptors.request.use(
 );
 
 const httpInstanceCreditos = axios.create({
-  baseURL: `https://www.elizondo.mx:5050/<%Ambiente%>/AppCreditoTest`,
+  baseURL: HTTP_INSTANCE.CREDITOS,
 });
 
 httpInstanceCreditos.interceptors.request.use(

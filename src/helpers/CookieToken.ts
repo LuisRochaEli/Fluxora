@@ -8,7 +8,7 @@ import {
 } from "./httpSINELI";
 import { useAmbienteStore } from "../store/template/useAmbienteStore";
 import { DesencriptarValores } from "./Crypto";
-import { AMBIENTES } from "../Constants";
+import { AMBIENTES, HTTP_INSTANCE } from "../Constants";
 
 export const setAuthorizationVeriDocHeader = (token: string) =>
   (httpInstanceVeriDoc.defaults.headers.common["Authorization"] =
@@ -39,42 +39,42 @@ export const CambioRutasAPI = () => {
   const CambiosRuta = () => {
     const AmbienteTexto = DesencriptarValores(Ambiente);
     if (AmbienteTexto === AMBIENTES.PRODUCCION) {
-      httpInstanceLogin.defaults.baseURL =
-        httpInstanceLogin.defaults.baseURL?.replace("<%Ambiente%>", "sineli");
-      httpInstanceBasics.defaults.baseURL =
-        httpInstanceBasics.defaults.baseURL?.replace("<%Ambiente%>", "sineli");
-      httpInstanceCreditos.defaults.baseURL =
-        httpInstanceCreditos.defaults.baseURL?.replace(
-          "<%Ambiente%>",
-          "sineli"
-        );
+      httpInstanceLogin.defaults.baseURL = HTTP_INSTANCE.LOGIN.replace(
+        "<%Ambiente%>",
+        "api-sineli"
+      );
+      httpInstanceBasics.defaults.baseURL = HTTP_INSTANCE.BASICS.replace(
+        "<%Ambiente%>",
+        "api-sineli"
+      );
+      httpInstanceCreditos.defaults.baseURL = HTTP_INSTANCE.CREDITOS.replace(
+        "<%Ambiente%>",
+        "sineli"
+      );
       httpInstanceDocumentos.defaults.baseURL =
-        httpInstanceDocumentos.defaults.baseURL?.replace(
-          "<%Ambiente%>",
-          "sineli"
-        );
+        HTTP_INSTANCE.DOCUMENTOS.replace("<%Ambiente%>", "sineli");
       httpInstanceSysWebApp.defaults.baseURL =
-      httpInstanceSysWebApp.defaults.baseURL?.replace(
+        httpInstanceSysWebApp.defaults.baseURL?.replace(
           "<%Ambiente%>",
           "syswebappcredito"
         );
     } else {
-      httpInstanceLogin.defaults.baseURL =
-        httpInstanceLogin.defaults.baseURL?.replace("<%Ambiente%>", "sineli");
-      httpInstanceBasics.defaults.baseURL =
-        httpInstanceBasics.defaults.baseURL?.replace("<%Ambiente%>", "sineli");
-      httpInstanceCreditos.defaults.baseURL =
-        httpInstanceCreditos.defaults.baseURL?.replace(
-          "<%Ambiente%>",
-          "sineli"
-        );
+      httpInstanceLogin.defaults.baseURL = HTTP_INSTANCE.LOGIN.replace(
+        "<%Ambiente%>",
+        "sineli"
+      );
+      httpInstanceBasics.defaults.baseURL = HTTP_INSTANCE.BASICS.replace(
+        "<%Ambiente%>",
+        "sineli"
+      );
+      httpInstanceCreditos.defaults.baseURL = HTTP_INSTANCE.CREDITOS.replace(
+        "<%Ambiente%>",
+        "sineli"
+      );
       httpInstanceDocumentos.defaults.baseURL =
-        httpInstanceDocumentos.defaults.baseURL?.replace(
-          "<%Ambiente%>",
-          "sineli"
-        );
+        HTTP_INSTANCE.DOCUMENTOS.replace("<%Ambiente%>", "sineli");
       httpInstanceSysWebApp.defaults.baseURL =
-      httpInstanceSysWebApp.defaults.baseURL?.replace(
+        httpInstanceSysWebApp.defaults.baseURL?.replace(
           "<%Ambiente%>",
           "syswebappcredito"
         );
